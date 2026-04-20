@@ -447,7 +447,24 @@
             color: white;
             border-color: #2ecc71;
         }
+
+        .short-guide {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e8449;
+            text-align: center;
+            margin-bottom: 10px;
+        }
         
+        .short-question {
+            font-size: 20px;
+            line-height: 1.5;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            word-break: keep-all;
+            margin-bottom: 8px;
+        }
 
         @media (max-width: 480px) {
             .question-card {
@@ -619,6 +636,17 @@
             font-size: 22px;
             border-radius: 14px;
         }
+
+        .short-guide {
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+    
+        .short-question {
+            font-size: 17px;
+            line-height: 1.45;
+            margin-bottom: 6px;
+        }
     }
                 
     </style>
@@ -700,7 +728,7 @@
             q: "다음은 중심정맥관을 삽입하는 상황입니다.<br>잘못된 부분을 찾으세요.",
             img: "ANS.png",
             targets: [
-                { id: "patient_hand", x: 0.71, y: 0.88, radius: 0.16 }
+                { id: "patient_hand", x: 0.68, y: 0.88, radius: 0.16 }
             ],
             explanation: "멸균 드레이프 밖으로 노출된 환자 손은 감염관리 측면에서 부적절합니다."
         },
@@ -714,7 +742,7 @@
         {
             id: "Q3",
             type: "SHORT",
-            q: "다음에 들어갈 알맞은 단어를 쓰세요.<br>수술 전 피부 소독 시 소독제가 완전히 ㄱㅈ되어야 한다.",
+            q: "수술 전 피부 소독 시<br>소독제가 완전히 ㄱㅈ되어야 한다.",
             a: "건조",
             explanation: "수술 전 피부 소독 후에는 소독제가 완전히 건조된 뒤 다음 단계로 진행해야 합니다."
         },
@@ -939,7 +967,8 @@
             charWrap.style.display = "flex";
             card.innerHTML = `
                 <div class="short-answer-wrap">
-                    <div>${current.q}</div>
+                    <div class="short-guide">다음에 들어갈 알맞은 단어를 쓰세요.</div>
+                    <div class="short-question">${current.q}</div>
                     <input
                         id="shortAnswerInput"
                         class="short-answer-input"
