@@ -20,6 +20,12 @@
             background-position: center;
         }
 
+        @supports (background-image: url("main_bg4.webp")) {
+            body {
+                background-image: url('main_bg4.webp');
+            }
+        }        
+
         #entryScreen, #resultScreen {
             position: absolute;
             top: 50%;
@@ -697,7 +703,7 @@
             <div id="feedback"></div>
 
             <div class="character-wrap">
-                <img id="characterImg" src="icon.png" alt="캐릭터">
+                <img id="characterImg" src="icon.webp" onerror="this.src='icon.png'">
             </div>
 
             <div class="controls">
@@ -726,7 +732,7 @@
             id: "Q1",
             type: "IMAGE_SINGLE",
             q: "다음은 중심정맥관을 삽입하는 상황입니다.<br>잘못된 부분을 그림에서 찾아 클릭하세요.",
-            img: "ANS.png",
+            img: "ANS.webp",
             targets: [
                 { id: "patient_hand", x: 0.66, y: 0.88, radius: 0.16 }
             ],
@@ -750,7 +756,7 @@
             id: "Q4",
             type: "IMAGE_MULTI",
             q: "잘못된 부분을 그림에서 모두 찾아 클릭하세요. (3개)",
-            img: "OP.png",
+            img: "OP.webp",
             targets: [
                 { id: "waist", x: 0.24, y: 0.62, radius: 0.08 }, // 만약 더 위로 올리고 싶다면? y를 낮추기
                 { id: "hair",  x: 0.65, y: 0.40, radius: 0.05 }, // 만약 더 오른쪽으로 밀고 싶다면? x를 높이기
@@ -782,7 +788,7 @@
             id: "Q7",
             type: "IMAGE_MULTI_SELECT",
             q: "다음 중 수술 후 수술부위 드레싱 시<br>손위생이 필요한 시점을 모두 고르세요.",
-            img: "dressing_HH.png",
+            img: "dressing_HH.webp",
             options: ["1", "2", "3"],
             a: [0, 1, 2],
             explanation: "기존 드레싱 제거 전, 소독 및 드레싱 수행 전, 그리고 종료 후 모두 손위생이 필요합니다."
@@ -791,7 +797,7 @@
             id: "Q8",
             type: "IMAGE_SINGLE",
             q: "외과적 손소독 시, alcohol rub에<br>가장 먼저 담가야 할 부위를<br>그림에서 찾아 클릭하세요.",
-            img: "Handrub.png",
+            img: "Handrub.webp",
             targets: [
                 { id: "fingertips", x: 0.44, y: 0.12, radius: 0.16 }
             ],
@@ -874,7 +880,9 @@
             }
         }, 1000);
 
-        document.getElementById('characterImg').src = 'icon.png'; //
+        const img = document.getElementById('characterImg');
+        img.src = 'icon.webp';
+        img.onerror = () => img.src = 'icon.png';
 
         document.getElementById('playerInfo').innerText = `${affiliation} ${name}`.trim();
         document.getElementById('entryScreen').style.display = 'none';
@@ -1005,7 +1013,10 @@
                     </div>
         
                     <div class="image-multi-select-board">
-                        <img src="${current.img}" alt="손위생 시점 이미지">
+                       <img src="${current.img}" 
+                            loading="lazy"
+                            onerror="this.src='${current.img.replace('.webp','.png')}'"
+                            alt="손위생 시점 이미지">
                     </div>
         
                     <div class="image-multi-select-options">
@@ -1033,7 +1044,11 @@
                     </div>
         
                     <div class="image-mcq-board">
-                        <img id="quizImage" src="${current.img}" alt="손톱 예시 이미지">
+                        <img id="quizImage" 
+                             src="${current.img}" 
+                             loading="lazy"
+                             onerror="this.src='${current.img.replace('.webp','.png')}'"
+                             alt="손톱 예시 이미지">
                     </div>
         
                     <div class="image-mcq-options">
@@ -1062,7 +1077,9 @@
                     <div class="image-guide"><strong>시간 제한 ${timeLimit}초</strong></div>
                     
                     <div id="imageBoard" class="image-board">
-                        <img id="quizImage" src="${current.img}">
+                        <img id="quizImage" src="${current.img}"
+                            loading="lazy"
+                            onerror="this.src='${current.img.replace('.webp','.png')}'">
                     </div>
                 </div>
             `;
@@ -1258,11 +1275,13 @@
             score += 10;
             feedback.innerText = "정답입니다 😎";
             feedback.style.background = "#27ae60"; // 초록색
-            img.src = 'icon_happy.png';
+            img.src = 'icon_happy.webp';
+            img.onerror = () => img.src = 'icon_happy.png';
         } else {
             feedback.innerText = "오답입니다 🥺";
             feedback.style.background = "#e74c3c"; // 빨간색
-            img.src = 'icon_sad.png';
+            img.src = 'icon_sad.webp';
+            img.onerror = () => img.src = 'icon_sad.png';
         }
     
         document.getElementById('scoreVal').innerText = score;
@@ -1270,7 +1289,8 @@
         // 2. 1.2초 후 메시지 숨기고 다음 문제로
         setTimeout(() => {
             feedback.style.display = "none"; // 다시 숨김
-            img.src = 'icon.png';
+            img.src = 'icon.webp';
+            img.onerror = () => img.src = 'icon.png';
             currentQIndex++;
     
             if (currentQIndex >= currentQuizData.length) {
